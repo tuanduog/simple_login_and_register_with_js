@@ -30,10 +30,16 @@ function Register () {
             return;
         }
         const user = {name: name, loginname: loginName, email: email, password: password};
-        const res = await axios.post('http://localhost:5000/api/add-user', user);
-        alert(res.data.message);
-        console.log("New user: ", user);
-        navigate('/Login');
+        try {
+            const res = await axios.post('http://localhost:5000/api/add-user', user);
+            alert(res.data.message);
+            console.log("New user:", user);
+            navigate('/Login');
+        } catch (err) { // get loi tu backend
+            const errorMsg = err.response?.data?.message || "Registration failed!";
+            alert(errorMsg);
+            console.error("Register error:", errorMsg);
+        }
     }
     return (
         <>

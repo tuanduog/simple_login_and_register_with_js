@@ -2,6 +2,9 @@ const userModel = require('../Model/userModel');
 
 exports.addUser = async (req, res) => {
     const {name, loginname, email, password} = req.body;
+    if (!name || !loginname || !email || !password) {
+        return res.status(400).json({ message: "All fields are required!" });
+    }
     const user = await userModel.findOne({
         $or: [{loginname}, {email}]
     });
