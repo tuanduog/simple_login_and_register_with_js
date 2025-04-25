@@ -1,9 +1,38 @@
 import React from "react";
 import '../Register/Register.module.css';
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from 'axios';
 function Register () {
+    const [name, setName] = useState("");
+    const [loginName, setLoginName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [repeat, setRepeat] = useState("");
+    const [check, setCheck] = useState(false);
+    const [showWarning, setShowWarning] = useState(false);
     const navigate = useNavigate();
-    const handleLogin = () => {
+    const handleToLogin = () => {
+        navigate('/Login');
+    }
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        if(!name || !loginName || !email || !password || !repeat){
+            alert("You need to fill all input!");
+            return;
+        }
+        if(!check){
+            setShowWarning(true);
+            return;
+        }
+        if(password !== repeat){
+            alert("Confirm password failed!");
+            return;
+        }
+        const user = {name: name, loginname: loginName, email: email, password: password};
+        const res = await axios.post('http://localhost:5000/api/add-user', user);
+        alert(res.data.message);
+        console.log("New user: ", user);
         navigate('/Login');
     }
     return (
@@ -22,12 +51,26 @@ function Register () {
                         <form>
                             <div className="form-outline mb-4" data-mdb-input-init>
                             <label className="form-label" htmlFor="form3Example1cg">
-                                Your Name
+                                Your name
                             </label>
                             <input
                                 type="text"
                                 id="form3Example1cg"
                                 className="form-control form-control-lg"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                            </div>
+                            <div className="form-outline mb-4" data-mdb-input-init>
+                            <label className="form-label" htmlFor="form3Example1cg">
+                                Login name
+                            </label>
+                            <input
+                                type="text"
+                                id="form3Example1cg"
+                                className="form-control form-control-lg"
+                                value={loginName}
+                                onChange={(e) => setLoginName(e.target.value)}
                             />
                             </div>
 
@@ -39,6 +82,8 @@ function Register () {
                                 type="email"
                                 id="form3Example3cg"
                                 className="form-control form-control-lg"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                             
                             </div>
@@ -51,6 +96,8 @@ function Register () {
                                 type="password"
                                 id="form3Example4cg"
                                 className="form-control form-control-lg"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                             
                             </div>
@@ -63,20 +110,24 @@ function Register () {
                                 type="password"
                                 id="form3Example4cdg"
                                 className="form-control form-control-lg"
+                                value={repeat}
+                                onChange={(e) => setRepeat(e.target.value)}
                             />
                             
                             </div>
 
-                            <div className="form-check d-flex justify-content-center mb-5">
+                            <div className="form-check d-flex justify-content-center mb-3">
                             <input
                                 className="form-check-input me-2"
                                 type="checkbox"
-                                value=""
+                                checked={check}
+                                onChange={(e) => setCheck(e.target.checked)}
                                 id="form2Example3cg"
                             />
                             <label
                                 className="form-check-label ms-1"
                                 htmlFor="form2Example3cg"
+                                
                             >
                                 I agree all statements in{' '}
                                 <a href="#!" className="text-body">
@@ -84,6 +135,13 @@ function Register () {
                                 </a>
                             </label>
                             </div>
+                            {showWarning && (
+                                <div className="alert alert-danger mt-3 ms-5 w-75" role="alert">
+                                    <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                    You need to agree the statement
+                                </div>
+                            )}
+
 
                             <div className="d-flex justify-content-center">
                             <button
@@ -91,6 +149,7 @@ function Register () {
                                 className="btn btn-success w-100 btn-lg gradient-custom-4 text-body"
                                 data-mdb-button-init
                                 data-mdb-ripple-init
+                                onClick={handleRegister}
                             >
                                 Register
                             </button>
@@ -98,7 +157,7 @@ function Register () {
 
                             <p className="text-center text-muted mt-5 mb-0">
                             Have already an account?{' '}
-                            <a onClick={handleLogin} className="fw-bold text-body" style={{cursor: 'pointer'}}>
+                            <a onClick={handleToLogin} className="fw-bold text-body" style={{cursor: 'pointer'}}>
                                 <u>Login here</u>
                             </a>
                             </p>
