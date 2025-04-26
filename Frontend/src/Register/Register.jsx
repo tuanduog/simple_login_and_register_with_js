@@ -17,10 +17,6 @@ function Register () {
     }
     const handleRegister = async (e) => {
         e.preventDefault();
-        if(!name || !loginName || !email || !password || !repeat){
-            alert("You need to fill all input!");
-            return;
-        }
         if(!check){
             setShowWarning(true);
             return;
@@ -54,7 +50,7 @@ function Register () {
                             Create an account
                         </h2>
 
-                        <form>
+                        <form onSubmit={handleRegister}>
                             <div className="form-outline mb-4" data-mdb-input-init>
                             <label className="form-label" htmlFor="form3Example1cg">
                                 Your name
@@ -150,15 +146,15 @@ function Register () {
 
 
                             <div className="d-flex justify-content-center">
-                            <button
-                                type="button"
-                                className="btn btn-success w-100 btn-lg gradient-custom-4 text-body"
-                                data-mdb-button-init
-                                data-mdb-ripple-init
-                                onClick={handleRegister}
-                            >
-                                Register
-                            </button>
+                                <button
+                                    type="submit"
+                                    className="btn btn-success w-100 btn-lg gradient-custom-4 text-body"
+                                    data-mdb-button-init
+                                    data-mdb-ripple-init
+                                    
+                                >
+                                    Register
+                                </button>
                             </div>
 
                             <p className="text-center text-muted mt-5 mb-0">
