@@ -1,6 +1,6 @@
 # Login and Register
 # Technologies used:
-- Language: + Frontend: Reactjs
+- Language: + Frontend: Reactjs<br>
             + Backend: Nodejs
 - Database: MongoDB
 - Framework: Boostrap 5, ExpressJs, Mongoose, Bcryptjs, JWT, ...
