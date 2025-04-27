@@ -31,7 +31,7 @@ exports.addUser = async (req, res) => {
 
 exports.checkUser = async (req, res) => {
     console.log("Received data: ", req.body);
-    const { username, password } = req.body;
+    const { username, password, remember } = req.body;
 
     if (!username || !password) {
         return res.status(400).json({ message: "Username and password are required!" });
@@ -52,13 +52,13 @@ exports.checkUser = async (req, res) => {
         const token = jwt.sign(
             { id: user._id}, // data encrypt
             process.env.JWT_SECRET, // key
-            {expiresIn: '1h'} 
+            {expiresIn: remember ? '7d' : '1h'} 
         );
         res.cookie('token', token, {
             httpOnly: true,
             sameSite: 'strict', 
             secure: false,
-            maxAge: 3600000,
+            maxAge: remember ? 7*24*60*60*1000 : 3600000,
         });
         return res.json({ message: "Login successful"});
     } catch (err) {
@@ -78,7 +78,7 @@ exports.profile = async (req, res) => {
 
 exports.logout = async (req, res) => {
     res.clearCookie('token');
-    res.status(200).json({ message: "Logout successful"});
+    return res.status(200).json({ message: "Logout successful"});
 }
 
 

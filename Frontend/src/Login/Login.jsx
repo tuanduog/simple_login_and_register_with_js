@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    const [remember, setRemember] = useState(false);
     const navigate = useNavigate();
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -17,7 +18,8 @@ const Login = () => {
         }
         const user = {
             username: username,
-            password
+            password,
+            remember
         }
 
         try {
@@ -54,8 +56,9 @@ const Login = () => {
 
                             {/* Checkbox */}
                             <div className="form-check d-flex justify-content-start mb-4">
-                            <input className="form-check-input" type="checkbox" value="" id="form1Example3"/>
-                            <label className="form-check-label ms-2" htmlFor="form1Example3">  Remember password </label>
+                            <input className="form-check-input" type="checkbox" value="" id="form1Example3" checked={remember} 
+                            onChange={() => setRemember(!remember)}/>
+                            <label className="form-check-label ms-2" htmlFor="form1Example3"> Remember password </label>
                             </div>
 
                             <button className="btn btn-primary btn-lg w-100" type="submit">Login</button>

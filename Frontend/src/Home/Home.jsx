@@ -18,14 +18,13 @@ const Home = () => {
     }
 
     const handleLogout = async () => {
-        const res = await axios.post('http://localhost:5000/api/logout', {}, {withCredentials: false});
+        const res = await axios.post('http://localhost:5000/api/logout', {}, {withCredentials: true});
         setUser(null);
-        console.log(res);
+        console.log(res.data);
     }
     useEffect(() => {
         const fetchUser = async () => {
             const res = await axios.get('http://localhost:5000/api/profile', {withCredentials: true});
-            alert("Logout successful!")
             setUser(res.data);
             //console.log(res.data);
         }
