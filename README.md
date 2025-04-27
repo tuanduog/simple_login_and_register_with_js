@@ -9,10 +9,10 @@
 git clone <repository_url><br>
 cd project <project_folder>
 ### 2. Install Dependencies
-- Install Frontend packages:
+- Install Frontend packages:<br>
 cd Frontend<br>
 npm install axios, bootstrap, react-router-dom<br>
-- Install Backend packages:
+- Install Backend packages:<br>
 cd Backend<br>
 npm install express, cors, jsonwebtoken, dotenv, bcryptjs, nodemon
 ### 3. Environment Variables
